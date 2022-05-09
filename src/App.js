@@ -1,10 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
+
+import Congrats from "./Congrats";
+import GuessedWord from "./GuessedWord";
 
 function App() {
   return (
-    <div className="App">
-      <h1>Learn react</h1>
+    <div className="container">
+      <h1>Jotto</h1>
+      <Congrats success/>
+      <GuessedWord guessedWords={[ { guessedWord: 'train', letterMatchCount: 3 } ]} />
     </div>
   );
 }
