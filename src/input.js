@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 function Input({ secretWord }) {
-  const [currentGuess, setCurrentGuess] = useState("");
+  const [currentGuess, setCurrentGuess] = React.useState("");
 
   return (
     <div data-test="component-input">
@@ -17,6 +17,10 @@ function Input({ secretWord }) {
         <button
           data-test="submit-button"
           className="btn btn-primary mb-2"
+          onClick={(e) => {
+            e.preventDefault();
+            setCurrentGuess("")
+          }}
         >
           Submit
         </button>
