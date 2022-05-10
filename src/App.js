@@ -1,13 +1,19 @@
+import React, {useEffect} from "react";
 import './App.css';
 
 import Congrats from "./Congrats";
 import GuessedWord from "./GuessedWord";
 import Input from "./input";
+import {getSecretWord} from "./actions";
 
 function App() {
   const success = false;
   const secretWord = 'party';
   const guessedWords = [];
+
+  useEffect(() => {
+    getSecretWord();
+  }, []);
 
   return (
     <div className="container" data-test='component-app'>
