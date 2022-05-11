@@ -16,13 +16,12 @@ const reducer = (state, action) => {
 }
 
 function App() {
-  const [state, dispacth] = React.useReducer(
+  const [state, dispatch] = React.useReducer(
     reducer,
     { secretWord: '' }
   )
-  // const [secretWord, setSecretWord] = useState('');
   const setSecretWord = (secretWord) => {
-    dispacth({ type: 'setSecretWord', payload: secretWord })
+    dispatch({ type: 'setSecretWord', payload: secretWord })
   }
   const success = false;
   const guessedWords = [];
@@ -30,6 +29,17 @@ function App() {
   useEffect(() => {
     getSecretWord(setSecretWord);
   }, []);
+
+  if (!state.secretWord) {
+    return (
+      <div className='container' data-test="spinner">
+        <div className='spinner-border' role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+        <p>Loading secret word...</p>
+      </div>
+    )
+  }
 
   return (
     <div className="container" data-test='component-app'>
