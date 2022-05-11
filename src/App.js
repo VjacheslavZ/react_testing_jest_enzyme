@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import './App.css';
 
 import Congrats from "./Congrats";
@@ -7,12 +7,12 @@ import Input from "./input";
 import {getSecretWord} from "./actions";
 
 function App() {
+  const [secretWord, setSecretWord] = useState('');
   const success = false;
-  const secretWord = 'party';
   const guessedWords = [];
 
   useEffect(() => {
-    getSecretWord();
+    getSecretWord(setSecretWord);
   }, []);
 
   return (
