@@ -14,12 +14,12 @@ test('useSuccess throws error when not wrapped in SuccessProvider', () => {
     shallow(<FunctionalComponent />)
   }).toThrow('useSuccess must be used with a SuccessProvider');
 });
-// test('useSuccess does not throw an error when wrapped into SuccessProvider', () => {
-//   expect(() => {
-//     mount(
-//       <successContext.SuccessProvider>
-//         <FunctionalComponent />
-//       </successContext.SuccessProvider>
-//     )
-//   }).not.toThrow();
-// });
+test('useSuccess does not throw an error when wrapped into SuccessProvider', () => {
+  expect(() => {
+    mount(
+      <successContext.SuccessProvider>
+        <FunctionalComponent />
+      </successContext.SuccessProvider>
+    )
+  }).not.toThrow();
+});

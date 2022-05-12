@@ -1,6 +1,6 @@
 import React from "react";
 
-const successContext = React.createContext;
+const successContext = React.createContext();
 
 function useSuccess() {
   const context = React.useContext(successContext);
@@ -14,7 +14,7 @@ function SuccessProvider(props) {
   const [success, setSuccess] = React.useState(false);
   const value = React.useMemo(() => [success, setSuccess], [success]);
 
-  return <successContext value={value} {...props} />
+  return <successContext.Provider value={value} {...props} />
 }
 
 export default { SuccessProvider, useSuccess}
