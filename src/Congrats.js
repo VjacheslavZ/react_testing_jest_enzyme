@@ -1,9 +1,15 @@
-export default function ({ success  }) {
+import React from "react";
+import LanguageContext from "./contexts/languageContext";
+import stringModule from './helpers/strings';
+
+const Congrats =  ({ success  }) => {
+  const language = React.useContext(LanguageContext);
+
   if (success) {
     return (
       <div data-test='component-congrats' className='alert alert-success'>
         <span data-test='congrats-message'>
-          Congratulation! You guessed word!
+          {stringModule.getStringByLanguage(language, 'congrats')}
         </span>
       </div>
     )
@@ -13,3 +19,5 @@ export default function ({ success  }) {
     )
   }
 }
+
+export default Congrats;
