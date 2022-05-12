@@ -1,11 +1,20 @@
 import React from "react";
-import { shallow } from "enzyme";
+import {mount, shallow} from "enzyme";
 
 import {findByTestAttr} from "../test/testUtils";
 import Input from "./input";
+import LanguageContext from "./contexts/languageContext";
 
-const setup = (success=false, secretWord='train') =>
-  shallow(<Input success={success} secretWord={secretWord} />)
+// const setup = (success=false, secretWord='train') =>
+//   shallow(<Input success={success} secretWord={secretWord} />)
+const setup = ({ language = 'en', secretWord = 'party', success = false }) => {
+
+  return mount(
+    <LanguageContext.Provider value={language}>
+      <Input success={success} secretWord={secretWord}/>
+    </LanguageContext.Provider>
+  )
+}
 
 const mockSetCurrentGuess = jest.fn();
 
@@ -18,10 +27,10 @@ describe('render', () => {
   describe('success is true', () => {
     let wrapper;
     beforeEach(() => {
-      wrapper = setup(true);
+      wrapper = setup({ success: true});
     });
     test('Input renders without error', () => {
-      const wrapper = setup();
+      const wrapper = setup({});
       const inputComponent = findByTestAttr(wrapper, 'component-input');
       expect(inputComponent.length).toBe(1);
     });
@@ -37,10 +46,10 @@ describe('render', () => {
   describe('success is false', () => {
     let wrapper;
     beforeEach(() => {
-      wrapper = setup(false);
+      wrapper = setup({success: false});
     });
     test('Input renders without error', () => {
-      const wrapper = setup();
+      const wrapper = setup({});
       const inputComponent = findByTestAttr(wrapper, 'component-input');
       expect(inputComponent.length).toBe(1);
     });
@@ -64,7 +73,7 @@ describe('state controlled input filed', () => {
     mockSetCurrentGuess.mockClear();
     originalUseState = React.useState;
     React.useState = jest.fn(() => ["", mockSetCurrentGuess])
-    wrapper = setup();
+    wrapper = setup({});
   })
   afterEach(() => {
     React.useState = originalUseState;
@@ -82,5 +91,18 @@ describe('state controlled input filed', () => {
     submitButton.simulate('click', { preventDefault() {}});
     expect(mockSetCurrentGuess).toHaveBeenCalledWith("")
   });
+})
+
+describe('LanguagePicker', () => {
+  test("correctly renders submit string english", () => {
+    const wrapper = setup({ language: 'en' });
+    const submitButton = findByTestAttr(wrapper, 'submit-button');
+    expect(submitButton.text()).toBe('Submit')
+  })
+  test("correctly renders congrats string in emoji", () => {
+    const wrapper = setup({ language: 'emoji' });
+    const submitButton = findByTestAttr(wrapper, 'submit-button');
+    expect(submitButton.text()).toBe('🚀')
+  })
 })
 
