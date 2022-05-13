@@ -9,6 +9,7 @@ import {getSecretWord} from "./actions";
 import LanguagePicker from "./LanguagePicker";
 import LanguageContext from "./contexts/languageContext";
 import SuccessContext from "./contexts/successContext";
+import GuessedWordsContext from "./contexts/guessedWordsContext";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -53,14 +54,16 @@ function App() {
   return (
     <div className="container" data-test='component-app'>
       <h1>Jotto</h1>
-      <LanguageContext.Provider value={state.language}>
-        <LanguagePicker setLanguage={setLanguage} />
-        <SuccessContext.SuccessProvider>
-          <Congrats />
-          <Input secretWord={state.secretWord} />
-        </SuccessContext.SuccessProvider>
-        <GuessedWord guessedWords={guessedWords} />
-      </LanguageContext.Provider>
+      <GuessedWordsContext.GuessedWordsProvider>
+        <LanguageContext.Provider value={state.language}>
+          <LanguagePicker setLanguage={setLanguage} />
+          <SuccessContext.SuccessProvider>
+            <Congrats />
+            <Input secretWord={state.secretWord} />
+          </SuccessContext.SuccessProvider>
+          <GuessedWord />
+        </LanguageContext.Provider>
+      </GuessedWordsContext.GuessedWordsProvider>
     </div>
   );
 }

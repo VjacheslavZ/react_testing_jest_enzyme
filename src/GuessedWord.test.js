@@ -2,7 +2,9 @@ import React from "react";
 import { shallow } from "enzyme";
 import {findByTestAttr} from "../test/testUtils";
 import GuessedWord from "./GuessedWord";
-import guessedWord from "./GuessedWord";
+import GuessedWordsContext from "./contexts/guessedWordsContext";
+
+
 
 const defaultProps = {
   guessedWords: [
@@ -13,17 +15,16 @@ const defaultProps = {
   ],
 };
 
-const setup = (props={}) => {
-  const setupProps = { ...defaultProps, ...props };
-  return shallow(<GuessedWord {...setupProps} />);
+const setup = (guessedWords = []) => {
+  const mockUseGuessedWords = jest.fn().mockReturnValue([guessedWords, jest.fn()]);
+  GuessedWordsContext.useGuessedWords = mockUseGuessedWords;
+  return shallow(<GuessedWord />);
 };
-
-test('does not throw warning with expected props', () => {});
 
 describe('if there are no words guessed', () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = setup({ guessedWords: [] });
+    wrapper = setup([]);
   });
   test('render without error', () => {
     const component = findByTestAttr(wrapper, 'component-guessed-words');
@@ -44,7 +45,7 @@ describe('if there are words guessed', () => {
     { guessedWord: 'party', letterMatchCount: 5 },
   ];
   beforeEach(() => {
-    wrapper = setup({ guessedWords });
+    wrapper = setup(guessedWords);
   });
   test('render without error', () => {
     const component = findByTestAttr(wrapper, 'component-guessed-words');
@@ -62,7 +63,7 @@ describe('if there are words guessed', () => {
 
 describe('LanguagePicker', () => {
   test("correctly renders guess instructions string in English by default", () => {
-    const wrapper = setup({ guessedWords: [] });
+    const wrapper = setup([]);
     const guessInstructions = findByTestAttr(wrapper, 'guess-instructions');
     expect(guessInstructions.text()).toBe('Try to guess the secret word!')
 
@@ -71,7 +72,7 @@ describe('LanguagePicker', () => {
     const mockUseContext = jest.fn().mockReturnValue('emoji');
     React.useContext = mockUseContext;
 
-    const wrapper = setup({ guessedWords: [] });
+    const wrapper = setup([]);
     const guessInstructions = findByTestAttr(wrapper, 'guess-instructions')
     expect(guessInstructions.text()).toBe('🤔🤫🔤')
   });
