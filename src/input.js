@@ -1,10 +1,11 @@
 import React from "react";
 import stringsModule from "./helpers/strings";
 import LanguageContext from "./contexts/languageContext";
+import SuccessContext from "./contexts/successContext";
 
-function Input({ success, secretWord }) {
+function Input({ secretWord }) {
   const language = React.useContext(LanguageContext);
-
+  const [success, setSuccess] = SuccessContext.useSuccess();
   const [currentGuess, setCurrentGuess] = React.useState("");
 
   if (success) {

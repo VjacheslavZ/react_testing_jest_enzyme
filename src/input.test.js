@@ -4,6 +4,7 @@ import {mount, shallow} from "enzyme";
 import {findByTestAttr} from "../test/testUtils";
 import Input from "./input";
 import LanguageContext from "./contexts/languageContext";
+import SuccessContext from "./contexts/successContext";
 
 // const setup = (success=false, secretWord='train') =>
 //   shallow(<Input success={success} secretWord={secretWord} />)
@@ -11,7 +12,9 @@ const setup = ({ language = 'en', secretWord = 'party', success = false }) => {
 
   return mount(
     <LanguageContext.Provider value={language}>
-      <Input success={success} secretWord={secretWord}/>
+      <SuccessContext.SuccessProvider value={[success, jest.fn()]}>
+        <Input secretWord={secretWord}/>
+      </SuccessContext.SuccessProvider>
     </LanguageContext.Provider>
   )
 }
